@@ -1,6 +1,6 @@
 import { render, cleanup } from '@testing-library/react';
 import { describe, it, expect, beforeEach } from 'vitest';
-import { UserSignupPage } from '.';
+import { UserSignupPage } from '@src/pages/UserSignupPage';
 
 beforeEach(cleanup);
 
@@ -15,7 +15,7 @@ describe('UserSignupPage', () => {
 
     it('has input for display name', () => {
       const { queryByPlaceholderText } = render(<UserSignupPage />);
-      const usernameInput = queryByPlaceholderText('Your username')!;
+      const usernameInput = queryByPlaceholderText('Your username');
 
       expect(usernameInput).toBeInTheDocument();
     });
