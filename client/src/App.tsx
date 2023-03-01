@@ -1,4 +1,5 @@
 import { UserSignupPage } from '@src/pages/UserSignupPage';
+import * as apiCalls from '@src/api/apiCalls';
 
 interface PostSignupProps {
   displayName: string;
@@ -9,7 +10,7 @@ interface PostSignupProps {
 
 export const App = () => {
   const actions = {
-    postSignup: (data: PostSignupProps) => console.log(data),
+    postSignup: apiCalls.signup,
   };
 
   return (
