@@ -18,11 +18,13 @@ export const UserSignupPage = (actions: UserSignupPageProps) => {
   };
 
   return (
-    <div>
-      <h1>Sign Up</h1>
+    <div className="container mt-4">
+      <h1 className="text-center">Sign Up</h1>
       <form method="post" onSubmit={(e) => onClickSignup(e)}>
-        <div>
+        <div className="col-12 mb-3">
+          <label htmlFor="displayName">Display Name</label>
           <input
+            className="form-control"
             name="displayName"
             placeholder="Your display name"
             type="text"
@@ -30,8 +32,10 @@ export const UserSignupPage = (actions: UserSignupPageProps) => {
             onChange={onChange}
           />
         </div>
-        <div>
+        <div className="col-12 mb-3">
+          <label htmlFor="username">Username</label>
           <input
+            className="form-control"
             name="username"
             placeholder="Your username"
             type="text"
@@ -39,8 +43,10 @@ export const UserSignupPage = (actions: UserSignupPageProps) => {
             onChange={onChange}
           />
         </div>
-        <div>
+        <div className="col-12 mb-3">
+          <label htmlFor="password">Password</label>
           <input
+            className="form-control"
             name="password"
             placeholder="Your password"
             type="password"
@@ -48,8 +54,10 @@ export const UserSignupPage = (actions: UserSignupPageProps) => {
             onChange={onChange}
           />
         </div>
-        <div>
+        <div className="col-12 mb-3">
+          <label htmlFor="passwordConfirmation">Password confirmation</label>
           <input
+            className="form-control"
             name="passwordConfirmation"
             placeholder="Repeat your password"
             type="password"
@@ -57,8 +65,10 @@ export const UserSignupPage = (actions: UserSignupPageProps) => {
             onChange={onChange}
           />
         </div>
-        <div>
-          <button type="submit">Sign Up</button>
+        <div className="text-center">
+          <button className="btn btn-primary w-100 mt-2" type="submit">
+            Sign Up
+          </button>
         </div>
       </form>
     </div>
