@@ -1,7 +1,20 @@
 import { UserSignupPage } from '@src/pages/UserSignupPage';
 
-export const App = () => (
-  <div className="App">
-    <UserSignupPage />
-  </div>
-);
+interface PostSignupProps {
+  displayName: string;
+  username: string;
+  password: string;
+  passwordConfirmation: string;
+}
+
+export const App = () => {
+  const actions = {
+    postSignup: (data: PostSignupProps) => console.log(data),
+  };
+
+  return (
+    <div className="App">
+      <UserSignupPage {...actions} />
+    </div>
+  );
+};
