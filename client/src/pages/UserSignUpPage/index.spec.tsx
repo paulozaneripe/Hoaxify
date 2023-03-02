@@ -1,42 +1,47 @@
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import {
+  render,
+  cleanup,
+  fireEvent,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { UserSignupPage } from '@src/pages/UserSignupPage';
-import { UserSignupPageProps } from '@src/ts/interfaces/UserSignupPageProps';
+import { UserSignUpPage } from '@src/pages/UserSignUpPage';
+import { UserSignUpPageProps } from '@src/ts/interfaces/UserSignUpPageProps';
 
 beforeEach(cleanup);
 
-describe('UserSignupPage', () => {
+describe('UserSignUpPage', () => {
   describe('Layout', () => {
     it('has header of Sign Up', () => {
-      const { container } = render(<UserSignupPage />);
+      const { container } = render(<UserSignUpPage />);
 
       const header = container.querySelector('h1');
       expect(header).toHaveTextContent('Sign Up');
     });
 
     it('has input for displayName', () => {
-      const { queryByPlaceholderText } = render(<UserSignupPage />);
+      const { queryByPlaceholderText } = render(<UserSignUpPage />);
       const displaynameInput = queryByPlaceholderText('Your display name');
 
       expect(displaynameInput).toBeInTheDocument();
     });
 
     it('has input for username', () => {
-      const { queryByPlaceholderText } = render(<UserSignupPage />);
+      const { queryByPlaceholderText } = render(<UserSignUpPage />);
       const usernameInput = queryByPlaceholderText('Your username');
 
       expect(usernameInput).toBeInTheDocument();
     });
 
     it('has input for password', () => {
-      const { queryByPlaceholderText } = render(<UserSignupPage />);
+      const { queryByPlaceholderText } = render(<UserSignUpPage />);
       const passwordInput = queryByPlaceholderText('Your password');
 
       expect(passwordInput).toBeInTheDocument();
     });
 
     it('has password type for password input ', () => {
-      const { queryByPlaceholderText } = render(<UserSignupPage />);
+      const { queryByPlaceholderText } = render(<UserSignUpPage />);
       const passwordInput = queryByPlaceholderText(
         'Your password',
       ) as HTMLInputElement;
@@ -45,7 +50,7 @@ describe('UserSignupPage', () => {
     });
 
     it('has input for passwordConfirmation', () => {
-      const { queryByPlaceholderText } = render(<UserSignupPage />);
+      const { queryByPlaceholderText } = render(<UserSignUpPage />);
       const passwordRepeatInput = queryByPlaceholderText(
         'Repeat your password',
       );
@@ -54,7 +59,7 @@ describe('UserSignupPage', () => {
     });
 
     it('has password type for passwordConfirmation input ', () => {
-      const { queryByPlaceholderText } = render(<UserSignupPage />);
+      const { queryByPlaceholderText } = render(<UserSignUpPage />);
       const passwordConfirmationInput = queryByPlaceholderText(
         'Repeat your password',
       ) as HTMLInputElement;
@@ -63,7 +68,7 @@ describe('UserSignupPage', () => {
     });
 
     it('has submit button', () => {
-      const { container } = render(<UserSignupPage />);
+      const { container } = render(<UserSignUpPage />);
       const button = container.querySelector('button');
 
       expect(button).toBeInTheDocument();
@@ -79,14 +84,22 @@ describe('UserSignupPage', () => {
       };
     };
 
+    const mockAsyncDelayed = () => {
+      return vi.fn().mockImplementation(() => {
+        return new Promise((resolve) => {
+          setTimeout(() => resolve({}), 100);
+        });
+      });
+    };
+
     let button: HTMLButtonElement,
       displayName,
       username,
       password,
       passwordConfirmation;
 
-    const setupForSubmit = (actions?: UserSignupPageProps) => {
-      const rendered = render(<UserSignupPage {...actions} />);
+    const setupForSubmit = (actions?: UserSignUpPageProps) => {
+      const rendered = render(<UserSignUpPage {...actions} />);
       const { container, queryByPlaceholderText } = rendered;
 
       displayName = queryByPlaceholderText(
@@ -111,7 +124,7 @@ describe('UserSignupPage', () => {
     };
 
     it('sets the displayName value into state', () => {
-      const { queryByPlaceholderText } = render(<UserSignupPage />);
+      const { queryByPlaceholderText } = render(<UserSignUpPage />);
       const displayNameInput = queryByPlaceholderText(
         'Your display name',
       ) as HTMLInputElement;
@@ -122,7 +135,7 @@ describe('UserSignupPage', () => {
     });
 
     it('sets the username value into state', () => {
-      const { queryByPlaceholderText } = render(<UserSignupPage />);
+      const { queryByPlaceholderText } = render(<UserSignUpPage />);
       const usernameInput = queryByPlaceholderText(
         'Your username',
       ) as HTMLInputElement;
@@ -133,7 +146,7 @@ describe('UserSignupPage', () => {
     });
 
     it('sets the password value into state', () => {
-      const { queryByPlaceholderText } = render(<UserSignupPage />);
+      const { queryByPlaceholderText } = render(<UserSignUpPage />);
       const passwordInput = queryByPlaceholderText(
         'Your password',
       ) as HTMLInputElement;
@@ -144,7 +157,7 @@ describe('UserSignupPage', () => {
     });
 
     it('sets the passwordConfirmation value into state', () => {
-      const { queryByPlaceholderText } = render(<UserSignupPage />);
+      const { queryByPlaceholderText } = render(<UserSignUpPage />);
       const passwordConfirmationInput = queryByPlaceholderText(
         'Repeat your password',
       ) as HTMLInputElement;
@@ -159,14 +172,14 @@ describe('UserSignupPage', () => {
       );
     });
 
-    it('calls postSignup when the fields are valid and the actions are provided in props', () => {
+    it('calls postSignUp when the fields are valid and the actions are provided in props', () => {
       const actions = {
-        postSignup: vi.fn().mockResolvedValueOnce({}),
+        postSignUp: vi.fn().mockResolvedValueOnce({}),
       };
 
       setupForSubmit(actions);
       fireEvent.click(button);
-      expect(actions.postSignup).toHaveBeenCalledOnce();
+      expect(actions.postSignUp).toHaveBeenCalledOnce();
     });
 
     it('does not throw exception when clicking the button when actions not provided in props', () => {
@@ -176,20 +189,86 @@ describe('UserSignupPage', () => {
 
     it('calls post with user body when the fields are valid', () => {
       const actions = {
-        postSignup: vi.fn().mockResolvedValue({}),
+        postSignUp: vi.fn().mockResolvedValue({}),
       };
 
       setupForSubmit(actions);
       fireEvent.click(button);
 
-      const expectedSignupData = {
+      const expectedSignUpData = {
         displayName: 'display-name-test',
         username: 'username-test',
         password: 'password-test',
         passwordConfirmation: 'password-confirmation-test',
       };
 
-      expect(actions.postSignup).toHaveBeenCalledWith(expectedSignupData);
+      expect(actions.postSignUp).toHaveBeenCalledWith(expectedSignUpData);
+    });
+
+    it('does not allow user to click the Sign Up button when there is an ongoing api call', () => {
+      const actions = {
+        postSignUp: mockAsyncDelayed(),
+      };
+
+      setupForSubmit(actions);
+
+      fireEvent.click(button);
+      fireEvent.click(button);
+
+      expect(actions.postSignUp).toHaveBeenCalledOnce();
+    });
+
+    it('displays spinner when there is an ongoing api call', () => {
+      const actions = {
+        postSignUp: mockAsyncDelayed(),
+      };
+
+      const { queryByText } = setupForSubmit(actions);
+      fireEvent.click(button);
+
+      const spinner = queryByText('Loading...');
+
+      expect(spinner).toBeInTheDocument();
+    });
+
+    it('hide spinner after api call finishes successfully', async () => {
+      const actions = {
+        postSignUp: mockAsyncDelayed(),
+      };
+
+      const { queryByText } = setupForSubmit(actions);
+      fireEvent.click(button);
+
+      const spinner = queryByText('Loading...');
+      await waitForElementToBeRemoved(spinner);
+
+      expect(spinner).not.toBeInTheDocument();
+    });
+
+    it('hide spinner after api call finishes with error', async () => {
+      const actions = {
+        postSignUp: vi.fn().mockImplementation(() => {
+          return new Promise((resolve, reject) => {
+            setTimeout(
+              () =>
+                reject({
+                  response: {
+                    data: {},
+                  },
+                }),
+              300,
+            );
+          });
+        }),
+      };
+
+      const { queryByText } = setupForSubmit(actions);
+      fireEvent.click(button);
+
+      const spinner = queryByText('Loading...');
+      await waitForElementToBeRemoved(spinner);
+
+      expect(spinner).not.toBeInTheDocument();
     });
   });
 });

@@ -1,15 +1,20 @@
 import { api } from '@src/api';
-import { vi } from 'vitest';
 import * as apiCalls from '@src/api';
+import { vi } from 'vitest';
 
 describe('axios', () => {
-  describe('signup', () => {
+  describe('signUp', () => {
     it('calls /api/1.0/users', () => {
-      const mockSignup = vi.fn();
-      api.post = mockSignup;
-      apiCalls.signup({});
+      const mockSignUp = vi.fn();
+      api.post = mockSignUp;
+      apiCalls.signUp({
+        displayName: '',
+        username: '',
+        password: '',
+        passwordConfirmation: '',
+      });
 
-      const path = mockSignup.mock.calls[0][0];
+      const path = mockSignUp.mock.calls[0][0];
 
       expect(path).toBe('/api/1.0/users');
     });

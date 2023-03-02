@@ -1,21 +1,14 @@
-import { UserSignupPage } from '@src/pages/UserSignupPage';
-import * as apiCalls from '@src/api/apiCalls';
-
-interface PostSignupProps {
-  displayName: string;
-  username: string;
-  password: string;
-  passwordConfirmation: string;
-}
+import { UserSignUpPage } from '@src/pages/UserSignUpPage';
+import * as apiCalls from '@src/api';
 
 export const App = () => {
   const actions = {
-    postSignup: apiCalls.signup,
+    postSignUp: apiCalls.signUp,
   };
 
   return (
     <div className="App">
-      <UserSignupPage {...actions} />
+      <UserSignUpPage {...actions} />
     </div>
   );
 };

@@ -1,7 +1,7 @@
-import { UserSignupPageProps } from '@src/ts/interfaces/UserSignupPageProps';
+import { UserSignUpPageProps } from '@src/ts/interfaces/UserSignUpPageProps';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-export const UserSignupPage = (actions: UserSignupPageProps) => {
+export const UserSignUpPage = (actions: UserSignUpPageProps) => {
   const [signUpData, setSignUpData] = useState({
     displayName: '',
     username: '',
@@ -9,18 +9,26 @@ export const UserSignupPage = (actions: UserSignupPageProps) => {
     passwordConfirmation: '',
   });
 
+  const [pendingApi, setPendingApi] = useState(false);
+
   const onChange = (e: ChangeEvent<HTMLInputElement>) =>
     setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
 
-  const onClickSignup = (e: FormEvent) => {
+  const onClickSignUp = (e: FormEvent) => {
     e.preventDefault();
-    if (actions.postSignup) actions.postSignup(signUpData);
+    if (actions.postSignUp) {
+      setPendingApi(true);
+      actions
+        .postSignUp(signUpData)
+        .then((response: any) => setPendingApi(false))
+        .catch((error: any) => setPendingApi(false));
+    }
   };
 
   return (
     <div className="container mt-4">
       <h1 className="text-center">Sign Up</h1>
-      <form method="post" onSubmit={(e) => onClickSignup(e)}>
+      <form method="post" onSubmit={(e) => onClickSignUp(e)}>
         <div className="col-12 mb-3">
           <label htmlFor="displayName">Display Name</label>
           <input
@@ -66,7 +74,16 @@ export const UserSignupPage = (actions: UserSignupPageProps) => {
           />
         </div>
         <div className="text-center">
-          <button className="btn btn-primary w-100 mt-2" type="submit">
+          <button
+            disabled={pendingApi}
+            className="btn btn-primary w-100 mt-2"
+            type="submit"
+          >
+            {pendingApi && (
+              <div className="spinner-border text-light spinner-border-sm mx-2">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            )}
             Sign Up
           </button>
         </div>
