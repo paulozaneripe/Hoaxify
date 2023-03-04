@@ -1,3 +1,3 @@
 export interface UserSignUpPageProps {
-  postSignUp?: Function;
+  signUp?: Function;
 }

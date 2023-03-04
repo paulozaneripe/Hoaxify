@@ -3,7 +3,7 @@ import * as apiCalls from '@src/api';
 
 export const App = () => {
   const actions = {
-    postSignUp: apiCalls.signUp,
+    signUp: apiCalls.signUp,
   };
 
   return (

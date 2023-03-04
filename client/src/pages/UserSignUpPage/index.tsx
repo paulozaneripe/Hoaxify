@@ -1,4 +1,5 @@
 import { UserSignUpPageProps } from '@src/ts/interfaces/UserSignUpPageProps';
+import { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
 export const UserSignUpPage = (actions: UserSignUpPageProps) => {
@@ -16,12 +17,19 @@ export const UserSignUpPage = (actions: UserSignUpPageProps) => {
 
   const onClickSignUp = (e: FormEvent) => {
     e.preventDefault();
-    if (actions.postSignUp) {
+    if (actions.signUp) {
       setPendingApi(true);
       actions
-        .postSignUp(signUpData)
-        .then((response: any) => setPendingApi(false))
-        .catch((error: any) => setPendingApi(false));
+        .signUp(signUpData)
+        .then((response: AxiosResponse) => {
+          if (response) {
+            setPendingApi(false);
+            alert(JSON.stringify(response));
+          }
+        })
+        .catch((error: AxiosError) => {
+          if (error) setPendingApi(false);
+        });
     }
   };
 

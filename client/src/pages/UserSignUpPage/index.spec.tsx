@@ -172,14 +172,14 @@ describe('UserSignUpPage', () => {
       );
     });
 
-    it('calls postSignUp when the fields are valid and the actions are provided in props', () => {
+    it('calls signUp when the fields are valid and the actions are provided in props', () => {
       const actions = {
-        postSignUp: vi.fn().mockResolvedValueOnce({}),
+        signUp: vi.fn().mockResolvedValueOnce({}),
       };
 
       setupForSubmit(actions);
       fireEvent.click(button);
-      expect(actions.postSignUp).toHaveBeenCalledOnce();
+      expect(actions.signUp).toHaveBeenCalledOnce();
     });
 
     it('does not throw exception when clicking the button when actions not provided in props', () => {
@@ -189,7 +189,7 @@ describe('UserSignUpPage', () => {
 
     it('calls post with user body when the fields are valid', () => {
       const actions = {
-        postSignUp: vi.fn().mockResolvedValue({}),
+        signUp: vi.fn().mockResolvedValue({}),
       };
 
       setupForSubmit(actions);
@@ -202,12 +202,12 @@ describe('UserSignUpPage', () => {
         passwordConfirmation: 'password-confirmation-test',
       };
 
-      expect(actions.postSignUp).toHaveBeenCalledWith(expectedSignUpData);
+      expect(actions.signUp).toHaveBeenCalledWith(expectedSignUpData);
     });
 
     it('does not allow user to click the Sign Up button when there is an ongoing api call', () => {
       const actions = {
-        postSignUp: mockAsyncDelayed(),
+        signUp: mockAsyncDelayed(),
       };
 
       setupForSubmit(actions);
@@ -215,12 +215,12 @@ describe('UserSignUpPage', () => {
       fireEvent.click(button);
       fireEvent.click(button);
 
-      expect(actions.postSignUp).toHaveBeenCalledOnce();
+      expect(actions.signUp).toHaveBeenCalledOnce();
     });
 
     it('displays spinner when there is an ongoing api call', () => {
       const actions = {
-        postSignUp: mockAsyncDelayed(),
+        signUp: mockAsyncDelayed(),
       };
 
       const { queryByText } = setupForSubmit(actions);
@@ -233,7 +233,7 @@ describe('UserSignUpPage', () => {
 
     it('hide spinner after api call finishes successfully', async () => {
       const actions = {
-        postSignUp: mockAsyncDelayed(),
+        signUp: mockAsyncDelayed(),
       };
 
       const { queryByText } = setupForSubmit(actions);
@@ -247,7 +247,7 @@ describe('UserSignUpPage', () => {
 
     it('hide spinner after api call finishes with error', async () => {
       const actions = {
-        postSignUp: vi.fn().mockImplementation(() => {
+        signUp: vi.fn().mockImplementation(() => {
           return new Promise((resolve, reject) => {
             setTimeout(
               () =>
@@ -256,7 +256,7 @@ describe('UserSignUpPage', () => {
                     data: {},
                   },
                 }),
-              300,
+              200,
             );
           });
         }),
