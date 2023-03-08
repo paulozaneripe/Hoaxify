@@ -43,7 +43,7 @@ public class UserController {
 
         Map<String, String> validationErrors =  new HashMap<>();
 
-        for(FieldError fieldError: result.getFieldErrors()) {
+        for (FieldError fieldError: result.getFieldErrors()) {
             validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
